@@ -1,0 +1,15 @@
+libav (6:10.2-1) unstable; urgency=high
+
+   Disable avserver (Closes: #734335)
+
+   It turns out that avserver is pretty much unmaintained these days and
+   contains obvious bugs. The next Libav upstream release has it already
+   removed, and further maintenance is currently rather unlikely. With
+   this in mind, the libav package proactively disables the avserver build
+   anticipating its removal upstream.
+
+   If you are interested in having avserver back and functional, please
+   help upstream with reinstantiating it.
+
+ -- Reinhard Tartler <siretart@tauware.de>  Fri, 27 Jun 2014 22:11:18 -0400
+
