@@ -1,0 +1,9 @@
+Document: libav-tools-avprobe
+Title: avprobe Documentation
+Author: Libav Developers
+Abstract: This is the documentation for avprobe
+Section: Video
+
+Format: HTML
+Index: /usr/share/doc/libav-tools/avprobe.html
+Files: /usr/share/doc/libav-tools/avprobe.html
