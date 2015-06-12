@@ -1,0 +1,9 @@
+Document: libav-tools-general
+Title: General Libav Documentation
+Author: Libav Developers
+Abstract: This is the general documentation for Libav.
+Section: Programming
+
+Format: HTML
+Index: /usr/share/doc/libav-tools/general.html
+Files: /usr/share/doc/libav-tools/general.html

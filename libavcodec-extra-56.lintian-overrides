@@ -1,0 +1,4 @@
+# This is the sister package of libavcodec56
+libavcodec-extra-56: package-name-doesnt-match-sonames
+# Overriding these fpic lintian errors. Please see bug #528080.
+libavcodec-extra-56 [i386]: shlib-with-non-pic-code
