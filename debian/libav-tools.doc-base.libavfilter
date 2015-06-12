@@ -1,0 +1,9 @@
+Document: libav-tools-libavfilter
+Title: Libavfilter Documentation
+Author: Libav Developers
+Abstract: This is the documentation for libavfilter usage in avconv.
+Section: Video
+
+Format: HTML
+Index: /usr/share/doc/libav-tools/libavfilter.html
+Files: /usr/share/doc/libav-tools/libavfilter.html

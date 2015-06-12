@@ -1,0 +1,9 @@
+Document: libav-tools-avconv
+Title: avconv Documentation
+Author: Libav Developers
+Abstract: This is the documentation for avconv
+Section: Video
+
+Format: HTML
+Index: /usr/share/doc/libav-tools/avconv.html
+Files: /usr/share/doc/libav-tools/avconv.html
