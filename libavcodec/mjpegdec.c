@@ -768,6 +768,10 @@ static int ljpeg_decode_yuv_scan(MJpegDecodeContext *s, int predictor,
 
                     for (j = 0; j < n; j++) {
                         int pred;
+                        if (   h * mb_x + x >= s->width
+                            || v * mb_y + y >= s->height) {
+                            // Nothing to do
+                        } else {
                         // FIXME optimize this crap
                         ptr = s->picture_ptr->data[c] +
                               (linesize * (v * mb_y + y)) +
@@ -788,6 +792,7 @@ static int ljpeg_decode_yuv_scan(MJpegDecodeContext *s, int predictor,
                         if (s->interlaced && s->bottom_field)
                             ptr += linesize >> 1;
                         *ptr = pred + (mjpeg_decode_dc(s, s->dc_index[i]) << point_transform);
+                        }
 
                         if (++x == h) {
                             x = 0;
