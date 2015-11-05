@@ -661,9 +661,9 @@ int ff_hevc_decode_nal_sps(HEVCContext *s)
     }
 
     sps->chroma_format_idc = get_ue_golomb_long(gb);
-    if (sps->chroma_format_idc != 1) {
-        avpriv_report_missing_feature(s->avctx, "chroma_format_idc != 1\n");
-        ret = AVERROR_PATCHWELCOME;
+    if (sps->chroma_format_idc > 3u) {
+        av_log(s->avctx, AV_LOG_ERROR, "chroma_format_idc %d is invalid\n", sps->chroma_format_idc);
+        ret = AVERROR_INVALIDDATA;
         goto err;
     }
 
