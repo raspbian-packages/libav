@@ -617,6 +617,10 @@ int ff_get_buffer(AVCodecContext *avctx, AVFrame *frame, int flags)
 
     switch (avctx->codec_type) {
     case AVMEDIA_TYPE_VIDEO:
+        if (av_image_check_size(avctx->width, avctx->height, 0, avctx) < 0) {
+            frame->width = frame->height = 0;
+            return AVERROR(EINVAL);
+        }
         if (frame->width <= 0 || frame->height <= 0) {
             frame->width  = FFMAX(avctx->width, avctx->coded_width);
             frame->height = FFMAX(avctx->height, avctx->coded_height);
@@ -634,9 +638,6 @@ int ff_get_buffer(AVCodecContext *avctx, AVFrame *frame, int flags)
                    frame->sample_aspect_ratio.den);
             frame->sample_aspect_ratio = (AVRational){ 0, 1 };
         }
-
-        if ((ret = av_image_check_size(avctx->width, avctx->height, 0, avctx)) < 0)
-            return ret;
         break;
     case AVMEDIA_TYPE_AUDIO:
         if (!frame->sample_rate)
@@ -670,8 +671,11 @@ int ff_get_buffer(AVCodecContext *avctx, AVFrame *frame, int flags)
     }
 
     ret = ff_decode_frame_props(avctx, frame);
-    if (ret < 0)
+    if (ret < 0) {
+        if (avctx->codec_type == AVMEDIA_TYPE_VIDEO)
+            frame->width = frame->height = 0;
         return ret;
+    }
 
     if (hwaccel && hwaccel->alloc_frame) {
         ret = hwaccel->alloc_frame(avctx, frame);
@@ -696,8 +700,11 @@ FF_DISABLE_DEPRECATION_WARNINGS
             frame->reference    = 1;
 
         ret = avctx->get_buffer(avctx, frame);
-        if (ret < 0)
+        if (ret < 0) {
+            if (avctx->codec_type == AVMEDIA_TYPE_VIDEO)
+                frame->width = frame->height = 0;
             return ret;
+        }
 
         /* return if the buffers are already set up
          * this would happen e.g. when a custom get_buffer() calls
@@ -789,6 +796,8 @@ fail:
         avctx->release_buffer(avctx, frame);
         av_freep(&priv);
         av_buffer_unref(&dummy_buf);
+        if (avctx->codec_type ==  AVMEDIA_TYPE_VIDEO)
+            frame->width = frame->height = 0;
         return ret;
     }
 FF_ENABLE_DEPRECATION_WARNINGS
@@ -801,6 +810,9 @@ end:
         frame->width  = avctx->width;
         frame->height = avctx->height;
     }
+
+    if ((ret < 0) && (avctx->codec_type ==  AVMEDIA_TYPE_VIDEO))
+        frame->width = frame->height = 0;
 
     return ret;
 }
