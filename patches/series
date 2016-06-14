@@ -1,0 +1,5 @@
+01-Tweak-doxygen-config.patch
+03-disable-configuration-warnings.patch
+CVE-2016-2326.patch
+CVE-2014-9676.patch
+CVE-2016-3062.patch
