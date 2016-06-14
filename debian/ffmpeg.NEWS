@@ -1,0 +1,9 @@
+libav (5:0.8.1-3) unstable; urgency=low
+
+  * The ffmpeg program has been deprecated and replaced with avconv.
+    The ffmpeg program is only provided for compatibility purposes and
+    will be removed in a future release. For a list of the
+    incompatible changes between the two programs, see
+    /usr/share/doc/libav-tools/changelog.gz.
+
+ -- Andres Mejia <amejia@debian.org>  Thu, 29 Mar 2012 12:54:59 -0400
