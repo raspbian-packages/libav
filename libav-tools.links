@@ -1,0 +1,6 @@
+usr/bin/avserver usr/bin/ffserver
+usr/bin/avplay   usr/bin/ffplay
+usr/bin/avprobe  usr/bin/ffprobe
+usr/share/man/man1/avplay.1.gz usr/share/man/man1/ffplay.1.gz
+usr/share/man/man1/avprobe.1.gz usr/share/man/man1/ffprobe.1.gz
+usr/share/man/man1/avserver.1.gz usr/share/man/man1/ffserver.1.gz
