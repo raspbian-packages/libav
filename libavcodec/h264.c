@@ -1364,6 +1364,7 @@ static int get_last_needed_nal(H264Context *h, const uint8_t *buf, int buf_size)
     int nal_index   = 0;
     int buf_index   = 0;
     int nals_needed = 0;
+    int ret         = 0;
 
     while(1) {
         int nalsize = 0;
@@ -1405,7 +1406,14 @@ static int get_last_needed_nal(H264Context *h, const uint8_t *buf, int buf_size)
         case NAL_DPA:
         case NAL_IDR_SLICE:
         case NAL_SLICE:
-            init_get_bits(&h->gb, ptr, bit_length);
+            ret = init_get_bits8(&h->gb, ptr, bit_length);
+            if (ret < 0) {
+                av_log(h->avctx, AV_LOG_ERROR, "Invalid zero-sized VCL NAL unit\n");
+                if (h->avctx->err_recognition & AV_EF_EXPLODE)
+                    return ret;
+
+                break;
+            }
             if (!get_ue_golomb(&h->gb))
                 nals_needed = nal_index;
         }
