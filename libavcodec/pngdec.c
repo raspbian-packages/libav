@@ -592,6 +592,16 @@ static int decode_frame(AVCodecContext *avctx,
         {
             int v, i;
 
+            if (!(s->state & PNG_IHDR)) {
+                av_log(avctx, AV_LOG_ERROR, "trns before IHDR\n");
+                return AVERROR_INVALIDDATA;
+            } 
+
+            if (s->state & PNG_IDAT) {
+                av_log(avctx, AV_LOG_ERROR, "trns after IDAT\n");
+                return AVERROR_INVALIDDATA;
+            }
+
             /* read the transparency. XXX: Only palette mode supported */
             if (s->color_type != PNG_COLOR_TYPE_PALETTE ||
                 length > 256 ||
