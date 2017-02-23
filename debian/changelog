@@ -1,9 +1,56 @@
-libav (6:0.8.17-2+rpi1+deb7u2) wheezy-staging; urgency=medium
+libav (6:0.8.20-0+deb7u1+rpi1) wheezy-staging; urgency=medium
 
   [changes brought forward from 6:0.8.17-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Wed, 25 Mar 2015 00:22:51 +0000]
   * Disable build of neon flavour
 
- -- Raspbian forward porter <root@raspbian.org>  Fri, 17 Jun 2016 23:37:24 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Thu, 23 Feb 2017 22:28:24 +0000
+
+libav (6:0.8.20-0+deb7u1) wheezy-security; urgency=high
+
+  * Non-maintainer upload by the LTS Team.
+  * New upstream release fixing multiple security issues.
+    - CVE-2016-9820: mpegvideo: Fix undefined negative shifts in
+      mpeg_motion_internal.
+    - CVE-2016-9819: mpegvideo: Fix undefined negative shifts in
+      ff_init_block_index.
+    - mpeg12dec: move setting first_field to mpeg_field_start().
+    - CVE-2016-9822: mpeg12dec: avoid signed overflow in bitrate
+      calculation.
+    - CVE-2016-9821: mpegvideo_parser: avoid signed overflow in bitrate
+      calculation.
+    - h264: Use the right H264Context for struct member comparison.
+
+ -- Hugo Lefeuvre <hle@debian.org>  Mon, 16 Jan 2017 22:09:59 +0100
+
+libav (6:0.8.19-0+deb7u1) wheezy-security; urgency=high
+
+  * Non-maintainer upload by the LTS Team.
+  * New upstream release fixing multiple security issues.
+    - h264: Various crashes with invalid-free, corrupted double-linked list or
+      out-of-bounds read 
+    - CVE-2016-7424: mpegvideo_motion: Handle edge emulation even without
+      unrestricted_mv
+  * Remove debian/patches/CVE-2014-3062.patch and
+    debian/patches/CVE-2014-2326.patch: Integrated in the new upstream
+    release.
+
+ -- Hugo Lefeuvre <hle@debian.org>  Wed, 11 Jan 2017 18:51:59 +0100
+
+libav (6:0.8.18-0+deb7u1) wheezy-security; urgency=high
+
+  * Non-maintainer upload by the LTS Team.
+  * New upstream release fixing multiple security issues.
+    - CVE-2016-7393: Fix stack buffer overflow errors detected by address
+      sanitizer in various fate tests.
+    - CVE-2015-1872: Check number of components for JPEG-LS.
+    - CVE-2015-5479: The ff_h263_decode_mba function in libavcodec/ituh263dec.c
+      in earlier versions allows remote attackers to cause a denial of service
+      (divide-by-zero error and application crash) via a file with crafted
+      dimensions.
+  * Remove debian/patches/CVE-2014-9676.patch: Integrated in the new upstream
+    release.
+
+ -- Hugo Lefeuvre <hle@debian.org>  Mon, 03 Oct 2016 17:36:42 +0200
 
 libav (6:0.8.17-2+deb7u2) wheezy-security; urgency=high
 

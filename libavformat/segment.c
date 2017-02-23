@@ -185,6 +185,7 @@ static int seg_write_header(AVFormatContext *s)
 fail:
     if (ret < 0)
         seg_free_context(seg);
+
     return ret;
 }
 

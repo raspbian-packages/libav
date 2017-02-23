@@ -1378,8 +1378,17 @@ static void mpeg_decode_sequence_extension(Mpeg1Context *s1)
     vert_size_ext           = get_bits(&s->gb, 2);
     s->width  |= (horiz_size_ext << 12);
     s->height |= (vert_size_ext  << 12);
-    bit_rate_ext = get_bits(&s->gb, 12);  /* XXX: handle it */
-    s->bit_rate += (bit_rate_ext << 18) * 400;
+
+    bit_rate_ext = get_bits(&s->gb, 12) << 18;
+    if (bit_rate_ext < INT_MAX / 400 &&
+        bit_rate_ext * 400 < INT_MAX - s->bit_rate) {
+        s->bit_rate += bit_rate_ext * 400;
+    } else {
+        av_log(s->avctx, AV_LOG_WARNING, "Invalid bit rate extension value: %d\n",
+               bit_rate_ext >> 18);
+        s->bit_rate = 0;
+    }
+
     skip_bits1(&s->gb); /* marker */
     s->avctx->rc_buffer_size += get_bits(&s->gb, 8) * 1024 * 16 << 10;
 
@@ -1538,10 +1547,8 @@ static void mpeg_decode_picture_coding_extension(Mpeg1Context *s1)
     }
 
     if (s->picture_structure == PICT_FRAME) {
-        s->first_field = 0;
         s->v_edge_pos  = 16 * s->mb_height;
     } else {
-        s->first_field ^= 1;
         s->v_edge_pos   = 8 * s->mb_height;
         memset(s->mbskip_table, 0, s->mb_stride * s->mb_height);
     }
@@ -1570,6 +1577,11 @@ static int mpeg_field_start(MpegEncContext *s, const uint8_t *buf, int buf_size)
 {
     AVCodecContext *avctx = s->avctx;
     Mpeg1Context *s1 = (Mpeg1Context*)s;
+
+    if (s->picture_structure == PICT_FRAME)
+        s->first_field = 0;
+    else
+        s->first_field ^= 1;
 
     /* start frame decoding */
     if (s->first_field || s->picture_structure == PICT_FRAME) {
