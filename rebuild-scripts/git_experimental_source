@@ -1,0 +1,51 @@
+#!/bin/sh
+#
+# Copyright 2014, Reinhard Tartler <siretart@debian.org>
+#
+# These helper script is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2 of the
+# License, or (at your option) any later version.
+#
+# This script is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+
+set -e
+
+packagename=$1
+basedir=$(readlink -f `dirname $0`)
+
+if [ -z "$packagename" ]; then
+    echo "usage $0 packagename"
+    exit 1
+fi
+
+rm -rf  $basedir/$packagename
+mkdir -p $basedir/$packagename
+
+cd $basedir/$packagename
+
+schroot -c experimental-amd64-sbuild -- apt-get source -d -t experimental $packagename
+package=`ls *.dsc`
+
+cat <<EOF > build.sh
+#!/bin/sh
+
+cd $PWD
+sbuild -A  -dexperimental --build-dep-resolver=aptitude \
+   --make-binNMU="rebuild against libav11"  --binNMU=+42 \
+   --add-depends "libavformat-dev (>> 6:11~~)" \
+   --add-depends "libavcodec-dev (>> 6:11~~)" \
+   --add-depends "libavfilter-dev (>> 6:11~~)" \
+   --add-depends "libavresample-dev (>> 6:11~~)" \
+   --add-depends "libavdevice-dev (>> 6:11~~)" \
+   --add-depends "libswscale-dev (>> 6:11~~)" \
+   --add-depends "libavutil-dev (>> 6:11~~)" \
+   "\$@" \
+   $package
+EOF
+
+chmod +x build.sh
