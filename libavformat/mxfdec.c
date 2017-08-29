@@ -407,12 +407,13 @@ static int mxf_read_primer_pack(void *arg, AVIOContext *pb, int tag, int size, U
         avpriv_request_sample(pb, "Primer pack item length %d", item_len);
         return AVERROR_PATCHWELCOME;
     }
-    if (item_num > UINT_MAX / item_len)
+    if (item_num > 65536 || item_num < 0)
+        av_log(mxf->fc, AV_LOG_ERROR, "item_num %d is too large\n", item_num);
         return AVERROR_INVALIDDATA;
-    mxf->local_tags_count = item_num;
     mxf->local_tags = av_malloc(item_num*item_len);
     if (!mxf->local_tags)
         return AVERROR(ENOMEM);
+    mxf->local_tags_count = item_num;
     avio_read(pb, mxf->local_tags, item_num*item_len);
     return 0;
 }
