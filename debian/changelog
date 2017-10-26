@@ -1,9 +1,25 @@
-libav (6:0.8.20-0+deb7u1+rpi1) wheezy-staging; urgency=medium
+libav (6:0.8.21-0+deb7u1+rpi1) wheezy-staging; urgency=medium
 
   [changes brought forward from 6:0.8.17-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Wed, 25 Mar 2015 00:22:51 +0000]
   * Disable build of neon flavour
 
- -- Raspbian forward porter <root@raspbian.org>  Thu, 23 Feb 2017 22:28:24 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Thu, 26 Oct 2017 13:47:41 +0000
+
+libav (6:0.8.21-0+deb7u1) wheezy-security; urgency=high
+
+  * Non-maintainer upload by the LTS Team.
+  * New upstream release fixing multiple security issues.
+    - CVE-2017-7208: buffer over-read in the decode_residual function
+      in libavcodec.
+    - CVE-2017-7862: out-of-bounds write caused by a heap-based buffer
+      overflow related to the decode_frame function in
+      libavcodec/pictordec.c.
+    - CVE-2017-9992: Heap-based buffer overflow in the decode_dds1
+      function in libavcodec/dfa.c.
+    - CVE-2015-8365: out-of-bounds array access in the smka_decode_frame
+      function in libavcodec/smacker.c.
+
+ -- Hugo Lefeuvre <hle@debian.org>  Mon, 16 Oct 2017 17:22:05 +0200
 
 libav (6:0.8.20-0+deb7u1) wheezy-security; urgency=high
 
