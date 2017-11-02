@@ -1322,10 +1322,16 @@ static int dvbsub_display_end_segment(AVCodecContext *avctx, const uint8_t *buf,
 
     sub->num_rects = ctx->display_list_size;
 
-    if (sub->num_rects > 0){
+    if (sub->num_rects > 0) {
         sub->rects = av_mallocz(sizeof(*sub->rects) * sub->num_rects);
-        for(i=0; i<sub->num_rects; i++)
+        if (!sub->rects)
+            return AVERROR(ENOMEM);
+        for (i = 0; i < sub->num_rects; i++) {
             sub->rects[i] = av_mallocz(sizeof(*sub->rects[i]));
+            if (!sub->rects[i]) {
+                return AVERROR(ENOMEM);
+            }
+        }
     }
 
     i = 0;
@@ -1364,9 +1370,18 @@ static int dvbsub_display_end_segment(AVCodecContext *avctx, const uint8_t *buf,
         }
 
         rect->pict.data[1] = av_mallocz(AVPALETTE_SIZE);
+        if (!rect->pict.data[1]) {
+            av_free(sub->rects);
+            return AVERROR(ENOMEM);
+        }
         memcpy(rect->pict.data[1], clut_table, (1 << region->depth) * sizeof(uint32_t));
 
         rect->pict.data[0] = av_malloc(region->buf_size);
+        if (!rect->pict.data[0]) {
+            av_free(rect->pict.data[1]);
+            av_free(sub->rects);
+            return AVERROR(ENOMEM);
+        }
         memcpy(rect->pict.data[0], region->pbuf, region->buf_size);
 
         i++;

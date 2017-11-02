@@ -1,6 +1,30 @@
 Entries are sorted chronologically from oldest to youngest within each release,
 releases are sorted from youngest to oldest.
 
+version 11.11:
+ - dfa: Disallow odd width/height and add proper bounds check for DDS1 chunks (CVE-2017-9992)
+ - pictor: Correctly check frame dimensions (CVE-2017-7862)
+ - h264_cavlc: check the value of run_before (bug/1000)
+ - dvbsubdec: improve error checking (CID/29575)
+ - dvbsubdec: Fixed segfault when decoding subtitles
+ - rmdec: don't ignore the return value of av_get_packet()
+ - caf: add an Opus tag
+ - yadif: Account for the buffer alignment while processing the frame edges (bug/1031)
+ - mov: log and return early on non-positive stsd entry counts
+ - arm: Fix SIGBUS on ARM when compiled with binutils 2.29
+ - smacker: return meaningful error codes on failure
+ - smacker: fix integer overflow with pts_inc (bug/1073)
+
+version 11.10:
+ - mm: Skip unexpected audio packets (bug/1046)
+ - aacsbr: Turnoff in the event of over read. (bug/1047)
+ - smacker: Check that the data size is a multiple of a sample vector (CVE-2015-8365)
+ - build: Add an option for passing linker flags to the shared library build
+ - flv: Validate the packet size (bug/1041)
+ - mjpeg: Report non-3 component rgb lossless as not supported (bug/1043)
+ - vc1dec: raise an error if sprite picture data is missing (bug/1013)
+ - doc: Drop the legacy symlink to README
+
 version 11.9:
 
  - libvpxenc: remove some unused ctrl id mappings
@@ -38,11 +62,11 @@ version 11.8:
  - fft: ppc: Place ff_fft_calc_interleave_altivec() under correct ifdefs
  - ac3: Check the array bound before dereferencing
  - librtmp: Avoid an infiniloop setting connection arguments
- - h264: only allow starting a new picture in the first slice thread
+ - h264: only allow starting a new picture in the first slice thread (bug/690)
  - mimic: do not release the newly obsolete reference at the end of decoding
  - buffer: fix av_buffer_realloc() when the data is offset wrt buffer start
  - vp9: make mv bounds 32bit.
- - riff: don't overwrite bps from WAVEFORMATEX if EXTENSIBLE doesn't contain that data.
+ - riff: don't overwrite bps from WAVEFORMATEX if EXTENSIBLE doesn't contain that data. (bug/950)
  - vmnc: check that subrectangles fit into their containing rectangles
  - alac: do not return success if nothing was decoded
  - qpeg: fix an off by 1 error in the MV check
