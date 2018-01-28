@@ -95,7 +95,7 @@ static int config_props_output(AVFilterLink *outlink)
 
     trans->hsub = desc_in->log2_chroma_w;
     trans->vsub = desc_in->log2_chroma_h;
-    trans->planes = desc_in->nb_components;
+    trans->planes = av_pix_fmt_count_planes(outlink->format);
 
     av_assert0(desc_in->nb_components == desc_out->nb_components);
 
