@@ -1,0 +1,35 @@
+The scripts in this folder may be helpful for doing mass rebuilds.
+
+How to use:
+
+1. Upload the new Libav upstream release to experimental, make sure your
+   mirror has it available.
+
+1. Copy this folder to a temporary directory with lots of
+   storage. (e.g., /srv/scratch/libav_rebuilds)
+
+2. Identify all packages you need to rebuild either using grep-dctrl(1),
+   or by scraping the Debian release tracker at
+   https://release.debian.org/transitions/. List all packages in a file
+   "packages.txt"
+
+3. Review and adjust the dependencies and chroot names in
+   git_experimental_source
+
+4. Execute "./do_all_safe"
+
+Discussion:
+
+git_experimental_source will use the schroot chroot to download the
+source package from debian/experimental in a subdirectory with the
+package name. It also places a script called "build.sh" with an schroot
+invocation that makes sure you have the libav packages from experimental
+in your build.sh chroot avaialable. do_all_safe iterates over the
+package list, download packages that have not been downloaded yet and
+executes the generated $package/build.sh script.
+
+If a build breaks, the idea is to go into that directory, and work on a
+patch to fix the problem. To start over, just delete the directory and
+call do_all_safe again.
+
+August 2014, Reinhard Tartler <siretart@debian.org>

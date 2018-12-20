@@ -1,0 +1,25 @@
+Description: Disable ebx_available on i586
+Author: Sebastian Ramacher <sramacher@debian.org>,
+ Bernhard Übelacker <bernhardu@vr-web.de>
+Bug: https://bugzilla.libav.org/show_bug.cgi?id=850
+Bug-Debian: https://bugs.debian.org/783082
+Last-Update: 2015-05-05
+
+--- a/configure
++++ b/configure
+@@ -3978,6 +3978,15 @@
+     check_inline_asm ebx_available '""::"b"(0)' &&
+         check_inline_asm ebx_available '"":::"%ebx"'
+ 
++    # workaround for debian#783082 / libav#850
++    if enabled gcc; then
++      case $($cc -dumpversion) in
++        4.9.*|5.*)
++          disable ebx_available
++        ;;
++      esac
++    fi
++
+     # check whether xmm clobbers are supported
+     check_inline_asm xmm_clobbers '"":::"%xmm0"'
+ 
