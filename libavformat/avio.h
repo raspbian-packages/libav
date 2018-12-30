@@ -227,6 +227,8 @@ static av_always_inline int64_t avio_tell(AVIOContext *s)
  */
 int64_t avio_size(AVIOContext *s);
 
+int avio_feof(AVIOContext *s);
+
 /** @warning currently size is limited */
 int avio_printf(AVIOContext *s, const char *fmt, ...) av_printf_format(2, 3);
 
