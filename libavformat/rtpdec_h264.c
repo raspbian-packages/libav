@@ -116,6 +116,11 @@ static int sdp_parse_fmtp_config_h264(AVFormatContext *s,
         codec->extradata_size = 0;
         av_freep(&codec->extradata);
 
+        if (*value == 0 || value[strlen(value) - 1] == ',') {
+             av_log(s, AV_LOG_WARNING, "Missing PPS in sprop-parameter-sets, ignoring\n");
+             return 0;
+         }
+
         while (*value) {
             char base64packet[1024];
             uint8_t decoded_packet[1024];
