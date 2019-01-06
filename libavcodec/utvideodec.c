@@ -362,7 +362,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
             slice_end   = bytestream2_get_le32u(&gb);
             slice_size  = slice_end - slice_start;
             if (slice_end < 0 || slice_size < 0 ||
-                bytestream2_get_bytes_left(&gb) < slice_end) {
+                bytestream2_get_bytes_left(&gb) < slice_end + 1024LL) {
                 av_log(avctx, AV_LOG_ERROR, "Incorrect slice size\n");
                 return AVERROR_INVALIDDATA;
             }
