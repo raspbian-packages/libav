@@ -28,6 +28,7 @@
 #include <stdlib.h>
 
 #include "libavutil/intreadwrite.h"
+#include "libavutil/pixdesc.h"
 #include "avcodec.h"
 #include "bswapdsp.h"
 #include "bytestream.h"
@@ -361,7 +362,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
             slice_end   = bytestream2_get_le32u(&gb);
             slice_size  = slice_end - slice_start;
             if (slice_end < 0 || slice_size < 0 ||
-                bytestream2_get_bytes_left(&gb) < slice_end) {
+                bytestream2_get_bytes_left(&gb) < slice_end + 1024LL) {
                 av_log(avctx, AV_LOG_ERROR, "Incorrect slice size\n");
                 return AVERROR_INVALIDDATA;
             }
@@ -477,6 +478,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
 static av_cold int decode_init(AVCodecContext *avctx)
 {
     UtvideoContext * const c = avctx->priv_data;
+    int h_shift, v_shift;
 
     c->avctx = avctx;
 
@@ -539,6 +541,13 @@ static av_cold int decode_init(AVCodecContext *avctx)
         av_log(avctx, AV_LOG_ERROR, "Unknown Ut Video FOURCC provided (%08X)\n",
                avctx->codec_tag);
         return AVERROR_INVALIDDATA;
+    }
+
+    av_pix_fmt_get_chroma_sub_sample(avctx->pix_fmt, &h_shift, &v_shift);
+    if ((avctx->width  & ((1<<h_shift)-1)) ||
+        (avctx->height & ((1<<v_shift)-1))) {
+        avpriv_request_sample(avctx, "Odd dimensions");
+        return AVERROR_PATCHWELCOME;
     }
 
     return 0;

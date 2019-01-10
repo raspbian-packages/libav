@@ -1,4 +1,4 @@
-libav (6:11.12-1~deb8u1+rpi1) jessie-staging; urgency=medium
+libav (6:11.12-1~deb8u4+rpi1) jessie-staging; urgency=medium
 
   [changes brought forward from 6:11.3-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Sun, 29 Mar 2015 02:07:33 +0000]
   * Add special case handling for Raspbian (and any derivatives thereof) (Closes: 738760)
@@ -13,7 +13,109 @@ libav (6:11.12-1~deb8u1+rpi1) jessie-staging; urgency=medium
   * Move armv6t2 and neon disabling from overall configure flags to static
     and shared configure flags so they don't impact the neon-specific build.
 
- -- Raspbian forward porter <root@raspbian.org>  Wed, 21 Feb 2018 03:02:59 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Thu, 10 Jan 2019 10:19:28 +0000
+
+libav (6:11.12-1~deb8u4) jessie-security; urgency=high
+
+  * Non-maintainer upload by the LTS team.
+  * Fix the following security vulnerabilities:
+  * CVE-2017-14055: a DoS in mv_read_header() due to lack of an EOF (End of
+    File) check might cause huge CPU and memory consumption.
+  * CVE-2017-14056: a DoS in rl2_read_header() due to lack of an EOF (End of
+    File) check might cause huge CPU and memory consumption.
+  * CVE-2017-14057: a DoS in asf_read_marker() due to lack of an EOF (End of
+    File) check might cause huge CPU and memory consumption.
+  * CVE-2017-14170: a DoS in mxf_read_index_entry_array() due to lack of an EOF
+    (End of File) check might cause huge CPU consumption.
+  * CVE-2017-14171: a DoS in nsv_parse_NSVf_header() due to lack of an EOF (End
+    of File) check might cause huge CPU consumption.
+  * CVE-2017-14767: The sdp_parse_fmtp_config_h264 function in
+    libavformat/rtpdec_h264.c mishandles empty sprop-parameter-sets values, which
+    allows remote attackers to cause a denial of service (heap buffer overflow)
+    or possibly have unspecified other impact via a crafted sdp file.
+  * CVE-2017-15672: The read_header function in libavcodec/ffv1dec.c allows
+    remote attackers to have unspecified impact via a crafted MP4 file, which
+    triggers an out-of-bounds read.
+  * CVE-2017-17130: The ff_free_picture_tables function in
+    libavcodec/mpegpicture.c allows remote attackers to cause a denial of service
+    (heap-based buffer overflow and application crash) or possibly have
+    unspecified other impact via a crafted file, related to
+    vc1_decode_i_blocks_adv.
+  * CVE-2017-9993: Libav does not properly restrict HTTP Live Streaming
+    filename extensions and demuxer names, which allows attackers to read
+    arbitrary files via crafted playlist data.
+  * CVE-2017-9994: libavcodec/webp.c in Libav before does not ensure that
+    pix_fmt is set, which allows remote attackers to cause a denial of service
+    (heap-based buffer overflow and application crash) or possibly have
+    unspecified other impact via a crafted file, related to the
+    vp8_decode_mb_row_no_filter and pred8x8_128_dc_8_c functions.
+  * CVE-2018-14394: libavformat/movenc.c in Libav allows attackers to cause a
+    denial of service (application crash caused by a divide-by-zero error) with a
+    user crafted Waveform audio file.
+  * CVE-2018-1999010: Libav contains multiple out of array access
+    vulnerabilities in the mms protocol that can result in attackers accessing
+    out of bound data.
+  * CVE-2018-6621: The decode_frame function in libavcodec/utvideodec.c in
+    Libav allows remote attackers to cause a denial of service (out of array
+    read) via a crafted AVI file.
+  * CVE-2018-7557: The decode_init function in libavcodec/utvideodec.c in
+    Libav allows remote attackers to cause a denial of service (Out of array
+    read) via an AVI file with crafted dimensions within chroma subsampling
+    data.
+
+ -- Markus Koschany <apo@debian.org>  Mon, 07 Jan 2019 19:45:12 +0100
+
+libav (6:11.12-1~deb8u3) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the Debian LTS Team.
+  * debian/patches:
+    + Rename CVE-2015-6822+6823+6824.patch to CVE-2015-6822.patch..
+  * CVE-2015-6823: avcodec/alac: Clear pointers in allocate_buffers().
+  * CVE-2015-6824: swscale/utils: Clear pix buffers. Fixes use of
+    uninitialized memory.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 20 Dec 2018 22:56:40 +0100
+
+libav (6:11.12-1~deb8u2) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the Debian LTS Team.
+  * CVE-2014-9317: avcodec/pngdec: Check IHDR/IDAT order. Prevent remote
+    attackers from causing a denial of service (out-of-bounds heap access)
+    and possibly have other unspecified impact via an IDAT before an IHDR 
+    in a PNG file.
+  * CVE-2015-6761: avcodec/vp8: Do not use num_coeff_partitions in
+    thread/buffer setup. The variable is not a constant and can lead to
+    race conditions.
+  * CVE-2015-6818: avcodec/pngdec: Only allow one IHDR chunk. Multiple IHDR
+    chunks are forbidden in PNG. Fixes inconsistency and out of array accesses.
+  * CVE-2015-6820: avcodec/aacsbr: check that the element type matches before
+    applying SBR. Fixes out of array access.
+  * CVE-2015-6821: avcodec/mpegvideo: Clear pointers in ff_mpv_common_init().
+    This ensures that no stale pointers leak through on any path.
+  * CVE-2015-6822, CVE-2015-6823, CVE-2015-6824: avcodec/sanm: Reset sizes in
+    destroy_buffers().
+  * CVE-2015-6825: avcodec/pthread_frame: clear priv_data, avoid stale pointer
+    in error case.
+  * CVE-2015-6826: avcodec/rv34: Clear pointers in
+    ff_rv34_decode_init_thread_copy(). Avoids leaving stale pointers.
+  * CVE-2015-8216: avcodec/mjpegdec: Check index in ljpeg_decode_yuv_scan()
+    before using it. Fixes out of array access.
+  * CVE-2015-8217: avcodec/hevc_ps: Check chroma_format_idc. Fixes out of
+    array access.
+  * CVE-2015-8363: avcodec/jpeg2000dec: Check for duplicate SIZ marker.
+  * CVE-2015-8364: avcodec/ivi: Check image dimensions. Fixes integer overflow.
+  * CVE-2015-8661: avcodec/h264_slice: Limit max_contexts when
+    slice_context_count is initialized. Fixes out of array access.
+  * CVE-2015-8662: avcodec/jpeg2000dwt: Check ndeclevels before calling
+    dwt_decode*(). Fixes out of array access.
+  * CVE-2015-8663: avcodec/utils: Clear dimensions in ff_get_buffer() on
+    failure. Fixes out of array access.
+  * CVE-2016-10190: http: make length/offset-related variables unsigned.
+    Required cherry-picking 3668701f and 362c17e6 from ffmpeg.git.
+  * CVE-2016-10191: avformat/rtmppkt: Check for packet size mismatches.
+    Fixes out of array access.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Wed, 19 Dec 2018 14:31:49 +0100
 
 libav (6:11.12-1~deb8u1) jessie-security; urgency=medium
 

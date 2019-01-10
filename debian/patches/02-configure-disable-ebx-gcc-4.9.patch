@@ -7,7 +7,7 @@ Last-Update: 2015-05-05
 
 --- a/configure
 +++ b/configure
-@@ -3941,6 +3941,15 @@
+@@ -3978,6 +3978,15 @@
      check_inline_asm ebx_available '""::"b"(0)' &&
          check_inline_asm ebx_available '"":::"%ebx"'
  
