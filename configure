@@ -3978,6 +3978,15 @@ EOF
     check_inline_asm ebx_available '""::"b"(0)' &&
         check_inline_asm ebx_available '"":::"%ebx"'
 
+    # workaround for debian#783082 / libav#850
+    if enabled gcc; then
+      case $($cc -dumpversion) in
+        4.9.*|5.*)
+          disable ebx_available
+        ;;
+      esac
+    fi
+
     # check whether xmm clobbers are supported
     check_inline_asm xmm_clobbers '"":::"%xmm0"'
 
