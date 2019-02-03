@@ -1,4 +1,4 @@
-libav (6:11.12-1~deb8u4+rpi1) jessie-staging; urgency=medium
+libav (6:11.12-1~deb8u5+rpi1) jessie-staging; urgency=medium
 
   [changes brought forward from 6:11.3-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Sun, 29 Mar 2015 02:07:33 +0000]
   * Add special case handling for Raspbian (and any derivatives thereof) (Closes: 738760)
@@ -13,7 +13,22 @@ libav (6:11.12-1~deb8u4+rpi1) jessie-staging; urgency=medium
   * Move armv6t2 and neon disabling from overall configure flags to static
     and shared configure flags so they don't impact the neon-specific build.
 
- -- Raspbian forward porter <root@raspbian.org>  Thu, 10 Jan 2019 10:19:28 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Sun, 03 Feb 2019 14:32:06 +0000
+
+libav (6:11.12-1~deb8u5) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the LTS team..
+  * CVE-2015-1207: avformat/mov: Fix integer overflow in
+    mov_read_udta_string().
+  * CVE-2017-14169: In mxf_read_primer_pack() function, catch item_num
+    being negative, to avoid bypassing the check for a large value.
+  * CVE-2017-14223: avformat/asfdec: Fix DoS in asf_build_simple_index().
+    Fix missing EOF check in loop.
+  * CVE-2017-7863: Bail out if trns was found before IHDR or IDAT in PNG data. 
+  * CVE-2014-8542: Add case for jv to avcodec_align_dimensions2().
+  * CVE-2017-7865: Add case for interplay_video to avcodec_align_dimensions2().
+
+ -- Mike Gabriel <sunweaver@debian.org>  Mon, 21 Jan 2019 15:30:50 +0100
 
 libav (6:11.12-1~deb8u4) jessie-security; urgency=high
 

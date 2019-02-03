@@ -37,3 +37,9 @@ CVE-2017-14170.patch
 CVE-2017-14171.patch
 avio_feof.patch
 CVE-2017-14057.patch
+CVE-2015-1207.patch
+CVE-2017-14169.patch
+CVE-2017-14223.patch
+CVE-2017-7863.patch
+CVE-2014-8542.patch
+CVE-2017-7865.patch
