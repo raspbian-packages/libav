@@ -461,6 +461,11 @@ static int hls_slice_header(HEVCContext *s)
 
     // Coded parameters
     sh->first_slice_in_pic_flag = get_bits1(gb);
+    if (s->ref && sh->first_slice_in_pic_flag) {
+        av_log(s->avctx, AV_LOG_ERROR, "Two slices reporting being the first in the same frame.\n");
+        return 1; // This slice will be skiped later, do not corrupt state
+    }
+
     if ((IS_IDR(s) || IS_BLA(s)) && sh->first_slice_in_pic_flag) {
         s->seq_decode = (s->seq_decode + 1) & 0xff;
         s->max_ra     = INT_MAX;
@@ -2900,6 +2905,8 @@ static int hevc_decode_frame(AVCodecContext *avctx, void *data, int *got_output,
         ret = ff_hevc_output_frame(s, data, 1);
         if (ret < 0)
             return ret;
+        if (ret == 1)
+            return AVERROR_INVALIDDATA;
 
         *got_output = ret;
         return 0;

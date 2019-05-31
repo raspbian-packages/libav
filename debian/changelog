@@ -1,4 +1,4 @@
-libav (6:11.12-1~deb8u6+rpi1) jessie-staging; urgency=medium
+libav (6:11.12-1~deb8u7+rpi1) jessie-staging; urgency=medium
 
   [changes brought forward from 6:11.3-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Sun, 29 Mar 2015 02:07:33 +0000]
   * Add special case handling for Raspbian (and any derivatives thereof) (Closes: 738760)
@@ -13,7 +13,16 @@ libav (6:11.12-1~deb8u6+rpi1) jessie-staging; urgency=medium
   * Move armv6t2 and neon disabling from overall configure flags to static
     and shared configure flags so they don't impact the neon-specific build.
 
- -- Raspbian forward porter <root@raspbian.org>  Tue, 02 Apr 2019 15:32:42 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Fri, 31 May 2019 03:23:38 +0000
+
+libav (6:11.12-1~deb8u7) jessie-security; urgency=medium
+
+  * Non-maintainer upload by the LTS team.
+  * CVE-2019-11338: avcodec/hevc: Avoid only partly skiping duplicate first
+    slices.
+  * CVE-2018-15822: avformat/flvenc: Check audio packet size. 
+
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 28 May 2019 14:14:01 +0200
 
 libav (6:11.12-1~deb8u6) jessie-security; urgency=medium
 
