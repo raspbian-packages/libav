@@ -1,4 +1,4 @@
-libav (6:11.12-1~deb8u7+rpi1) jessie-staging; urgency=medium
+libav (6:11.12-1~deb8u8+rpi1) jessie-staging; urgency=medium
 
   [changes brought forward from 6:11.3-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Sun, 29 Mar 2015 02:07:33 +0000]
   * Add special case handling for Raspbian (and any derivatives thereof) (Closes: 738760)
@@ -13,7 +13,22 @@ libav (6:11.12-1~deb8u7+rpi1) jessie-staging; urgency=medium
   * Move armv6t2 and neon disabling from overall configure flags to static
     and shared configure flags so they don't impact the neon-specific build.
 
- -- Raspbian forward porter <root@raspbian.org>  Fri, 31 May 2019 03:23:38 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Sun, 01 Sep 2019 13:44:55 +0000
+
+libav (6:11.12-1~deb8u8) jessie-security; urgency=medium
+
+  * CVE-2019-14442: avformat/mpc8: fix hang with fuzzed file.
+  * CVE-2018-5766: lavc/avpacket: Fix undefined behaviour, do not pass a null
+    pointer to memcpy().
+  * CVE-2019-14372: wvdec: check for eof in wv_read_block_header().
+  * CVE-2017-9987: avcodec/mpegvideo_motion: Fix off by 1 error in MV bounds
+    checking.
+  * CVE-2018-11102:  
+    - mov_probe: fix integer overflows.
+    - mov.c: Check for stsd + m1s tag indicating MOV-wrapped MPEG-PS, and force
+      continued probing if found. 
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sat, 31 Aug 2019 17:36:55 +0200
 
 libav (6:11.12-1~deb8u7) jessie-security; urgency=medium
 

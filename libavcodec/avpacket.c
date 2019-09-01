@@ -364,7 +364,8 @@ int av_packet_ref(AVPacket *dst, AVPacket *src)
         ret = packet_alloc(&dst->buf, src->size);
         if (ret < 0)
             goto fail;
-        memcpy(dst->buf->data, src->data, src->size);
+        if (src->size)
+            memcpy(dst->buf->data, src->data, src->size);
 
         dst->data = dst->buf->data;
     } else {
