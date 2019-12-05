@@ -1,4 +1,4 @@
-libav (6:11.12-1~deb8u8+rpi1) jessie-staging; urgency=medium
+libav (6:11.12-1~deb8u9+rpi1) jessie-staging; urgency=medium
 
   [changes brought forward from 6:11.3-1+rpi1 by Peter Michael Green <plugwash@raspbian.org> at Sun, 29 Mar 2015 02:07:33 +0000]
   * Add special case handling for Raspbian (and any derivatives thereof) (Closes: 738760)
@@ -13,7 +13,28 @@ libav (6:11.12-1~deb8u8+rpi1) jessie-staging; urgency=medium
   * Move armv6t2 and neon disabling from overall configure flags to static
     and shared configure flags so they don't impact the neon-specific build.
 
- -- Raspbian forward porter <root@raspbian.org>  Sun, 01 Sep 2019 13:44:55 +0000
+ -- Raspbian forward porter <root@raspbian.org>  Thu, 05 Dec 2019 19:16:12 +0000
+
+libav (6:11.12-1~deb8u9) jessie-security; urgency=high
+
+  * Non-maintainer upload by the LTS Security Team.
+  * CVE-2019-17542: heap-based buffer overflow in vqa_decode_chunk because
+    of an out-of-array access in vqa_decode_init in libavcodec/vqavideo.c.
+  * CVE-2019-14443: division by zero in range_decode_culshift in
+    libavcodec/apedec.c allows remote attackers to cause a denial of
+    service (application crash), as demonstrated by avconv.
+  * CVE-2018-19128: heap-based buffer over-read in decode_frame in
+    libavcodec/lcldec.c that allows an attacker to cause denial-of-service
+    via a crafted avi file.
+  * CVE-2017-17127: the vc1_decode_frame function in libavcodec/vc1dec.c
+    allows remote attackers to cause a denial of service (NULL pointer
+    dereference and application crash) via a crafted file.
+    CVE-2018-19130 is a duplicate of this vulnerability.
+  * CVE-2017-18245: the mpc8_probe function in libavformat/mpc8.c allows
+    remote attackers to cause a denial of service (heap-based buffer
+    over-read) via a crafted audio file on 32-bit systems.
+
+ -- Sylvain Beucler <beuc@debian.org>  Thu, 05 Dec 2019 17:27:00 +0100
 
 libav (6:11.12-1~deb8u8) jessie-security; urgency=medium
 
