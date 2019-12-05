@@ -1,0 +1,45 @@
+From: Markus Koschany <apo@debian.org>
+Date: Sun, 30 Dec 2018 12:12:16 +0100
+Subject: avio_feof
+
+This function is needed for several of the CVE-2017-140xx flaws.
+---
+ libavformat/avio.h    |  2 ++
+ libavformat/aviobuf.c | 11 +++++++++++
+ 2 files changed, 13 insertions(+)
+
+diff --git a/libavformat/avio.h b/libavformat/avio.h
+index 3360e82..7669132 100644
+--- a/libavformat/avio.h
++++ b/libavformat/avio.h
+@@ -227,6 +227,8 @@ static av_always_inline int64_t avio_tell(AVIOContext *s)
+  */
+ int64_t avio_size(AVIOContext *s);
+ 
++int avio_feof(AVIOContext *s);
++
+ /** @warning currently size is limited */
+ int avio_printf(AVIOContext *s, const char *fmt, ...) av_printf_format(2, 3);
+ 
+diff --git a/libavformat/aviobuf.c b/libavformat/aviobuf.c
+index 6923b78..17b8300 100644
+--- a/libavformat/aviobuf.c
++++ b/libavformat/aviobuf.c
+@@ -257,6 +257,17 @@ int64_t avio_size(AVIOContext *s)
+     return size;
+ }
+ 
++int avio_feof(AVIOContext *s)
++{
++    if(!s)
++        return 0;
++    if(s->eof_reached){
++        s->eof_reached=0;
++        fill_buffer(s);
++    }
++    return s->eof_reached;
++}
++
+ void avio_wl32(AVIOContext *s, unsigned int val)
+ {
+     avio_w8(s, val);
